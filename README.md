@@ -6,3 +6,7 @@ from many different categories. You can create, manage your quiz or solve those 
 This repository contains only a backend part of whole application.
 
 Technologies: Node.js, Express.js, MongoDB + Mongoose, JWT Authentication
+
+# How to start the app?
+
+type: nodemon \*.js
