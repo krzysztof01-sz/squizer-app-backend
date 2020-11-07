@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { getRandomNumber } = require('../utils/functions');
-const messages = require('../utils/feedbackMessages');
+const messages = require('../utils/responseMessages');
 
 const verify = (req, res, next) => {
   const token = req.header('auth-token');

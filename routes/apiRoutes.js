@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
-const messages = require('../utils/feedbackMessages');
+const messages = require('../utils/responseMessages');
 const { validatePhoto } = require('../utils/functions');
 const { csrfProtection } = require('../middlewares/csrf');
 const { addUserController } = require('../controllers/apiController');

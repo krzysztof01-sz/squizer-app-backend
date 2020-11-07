@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/dashboard', verify, (req, res) => {
-  if (req.user) res.send(req.user);
+  if (req.user) res.send([{ ...req.user, type: 'success' }]);
 });
 
 // routes

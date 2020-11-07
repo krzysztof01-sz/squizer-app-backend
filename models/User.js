@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const { hashSync, compareSync } = require('bcrypt');
 const { getRandomNumber } = require('../utils/functions');
-const messages = require('../utils/feedbackMessages');
+const messages = require('../utils/responseMessages');
 
 const Schema = mongoose.Schema;
 

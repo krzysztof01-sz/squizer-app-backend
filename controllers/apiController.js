@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const messages = require('../utils/feedbackMessages');
+const messages = require('../utils/responseMessages');
 const { validate, getRandomNumber } = require('../utils/functions');
 
 const addUserController = async (req, res) => {
