@@ -8,7 +8,7 @@ const addUserController = async (req, res) => {
   if (!validationErrors.isEmpty()) return res.status(400).send(validationErrors.array());
   else {
     const clientToken = req.headers['csrf-token'];
-    const serverToken = req.body.csrfToken;
+    const serverToken = req.body._csrf;
 
     if (serverToken === clientToken) {
       try {
