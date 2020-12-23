@@ -1,11 +1,4 @@
-const { validationResult } = require('express-validator');
 const prefferedExtensions = ['png', 'jpg', 'jpeg'];
-
-const validate = req => {
-  return validationResult(req).formatWith(({ msg }) => {
-    return { msg, param: getRandomNumber(), type: 'error' };
-  });
-};
 
 const validatePhoto = file => {
   if (!file) return false;
@@ -17,6 +10,11 @@ const validatePhoto = file => {
   }
 };
 
-const getRandomNumber = () => Math.random().toString();
+const normalizeResponse = resp => [resp].flat();
 
-module.exports = { validatePhoto, validate, getRandomNumber };
+const makeResponse = (msg, type) => ({
+  msg,
+  type,
+});
+
+module.exports = { validatePhoto, normalizeResponse, makeResponse };
