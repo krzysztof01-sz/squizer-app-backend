@@ -1,8 +1,8 @@
 const AuthService = require('../services/authService');
 const responseTypes = require('../utils/responseTypes');
 
-module.exports = {
-  loginController: async (req, res) => {
+module.exports.authController = {
+  login: async (req, res) => {
     const response = await AuthService.Login(req);
     const { msg, type } = response;
 
@@ -15,7 +15,7 @@ module.exports = {
     }
   },
 
-  registerController: async (req, res) => {
+  register: async (req, res) => {
     const response = await AuthService.SignUp(req);
     const { msg, type } = response;
 
@@ -27,7 +27,7 @@ module.exports = {
     }
   },
 
-  csrfController: (req, res) => {
+  getCsrf: (req, res) => {
     res.send({ csrfToken: req.csrfToken() });
   },
 };
