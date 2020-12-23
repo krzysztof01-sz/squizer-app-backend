@@ -7,9 +7,8 @@ const helmet = require('helmet');
 const hpp = require('hpp');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-const apiRoutes = require('./routes/apiRoutes');
-const authRoutes = require('./routes/authRoutes');
-const verify = require('./middlewares/verifyToken');
+const apiRoutes = require('./routes/api');
+const authRoutes = require('./routes/auth');
 
 mongoose.Promise = global.Promise;
 
@@ -23,15 +22,7 @@ app.disable('x-powered-by');
 
 const PORT = process.env.PORT || 8080;
 
-app.get('/', (req, res) => {
-  res.send('Hello world!');
-});
-
-app.post('/dashboard', verify, (req, res) => {
-  if (req.user) res.send([{ ...req.user, type: 'success' }]);
-});
-
-// routes
+app.get('/', (req, res) => res.send('Hello world!'));
 
 app.use('/api', apiRoutes);
 app.use('/auth', authRoutes);
