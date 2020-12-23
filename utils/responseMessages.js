@@ -21,6 +21,11 @@ const LOGIN_SUCCESS = 'Logged successfully';
 
 const JWT_ACCESS_DENIED = 'Invalid token. Access denied.';
 
+// quizzes service
+const QUIZZES_FIND_ERROR = `We haven't found any quizzes.`;
+const QUIZ_DOESNT_EXISTS = 'This quiz probably does not exists.';
+const INVALID_QUIZ_DATA = `Invalid quiz data, fill the form diligently.`;
+
 module.exports = {
   REGISTRATION_SUCCESS,
   REGISTRATION_ERROR,
@@ -34,4 +39,7 @@ module.exports = {
   LOGIN_INVALID_DATA,
   LOGIN_INVALID_PASSWORD,
   JWT_ACCESS_DENIED,
+  QUIZZES_FIND_ERROR,
+  QUIZ_DOESNT_EXISTS,
+  INVALID_QUIZ_DATA,
 };
