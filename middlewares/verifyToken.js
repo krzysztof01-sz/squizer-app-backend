@@ -11,7 +11,7 @@ const verify = (req, res, next) => {
     req.user = user;
   } catch (e) {
     if (typeof e === 'object') e = makeResponse(messages.JWT_ACCESS_DENIED, responseTypes.error);
-    res.status(400).send(e);
+    res.status(401).send(e);
   }
   next();
 };

@@ -10,7 +10,7 @@ module.exports.usersController = {
         const { user } = response;
         res.status(200).json({ type, user });
       } else {
-        res.status(401).json({ type });
+        res.status(400).json({ type });
       }
     }
   },

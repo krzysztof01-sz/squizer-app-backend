@@ -25,7 +25,7 @@ module.exports.quizzesController = {
         res.status(200).json({ type, questions: data });
       } else {
         const { msg } = response;
-        res.status(401).json({ type, msg });
+        res.status(400).json({ type, msg });
       }
     }
   },
@@ -34,9 +34,9 @@ module.exports.quizzesController = {
     if (req.user) {
       const result = await QuizzesService.addQuiz(req);
       if (result.type === responseTypes.success) {
-        res.status(200).json(result);
+        res.status(201).json(result);
       } else {
-        res.status(401).json(result);
+        res.status(400).json(result);
       }
     }
   },

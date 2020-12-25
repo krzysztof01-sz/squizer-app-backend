@@ -21,9 +21,9 @@ module.exports.authController = {
 
     if (type === responseTypes.success) {
       const { userId } = response;
-      res.status(200).json({ msg, type, userId });
+      res.status(201).json({ msg, type, userId });
     } else {
-      res.status(401).json({ msg, type });
+      res.status(400).json({ msg, type });
     }
   },
 
