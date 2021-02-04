@@ -13,7 +13,7 @@ const userSchema = new Schema(
       trim: true,
       required: true,
     },
-    photoType: {
+    avatarType: {
       type: String,
       required: true,
       enum: ['custom', 'default'],
