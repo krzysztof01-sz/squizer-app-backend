@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const messages = require('../utils/responseMessages');
 
 const { csrfProtection } = require('../middlewares/csrf');
-const { validatePhoto } = require('../utils/functions');
+const { validateAvatar } = require('../utils/functions');
 const { authController } = require('../controllers/auth');
 
 const router = express.Router();
@@ -26,9 +26,9 @@ router.post(
       .exists()
       .trim()
       .custom((confirmedPassword, { req }) => confirmedPassword === req.body.password),
-    check('photo', messages.PHOTO_REQUIRED)
+    check('avatar', messages.AVATAR_REQUIRED)
       .notEmpty()
-      .custom(photo => validatePhoto(photo)),
+      .custom(avatar => validateAvatar(avatar)),
   ],
   authController.register,
 );
