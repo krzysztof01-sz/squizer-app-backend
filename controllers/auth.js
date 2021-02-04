@@ -3,7 +3,7 @@ const responseTypes = require('../utils/responseTypes');
 
 module.exports.authController = {
   login: async (req, res) => {
-    const response = await AuthService.Login(req);
+    const response = await AuthService.login(req);
     const { msg, type } = response;
 
     if (type === responseTypes.success) {
@@ -16,7 +16,7 @@ module.exports.authController = {
   },
 
   register: async (req, res) => {
-    const response = await AuthService.SignUp(req);
+    const response = await AuthService.register(req);
     const { msg, type } = response;
 
     if (type === responseTypes.success) {
