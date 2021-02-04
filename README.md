@@ -1,12 +1,17 @@
 # squizer-app-backend
 
-Squizer - a web application that stores away a base of online quizzes
-from many different categories. You can create, manage your quiz or solve those created by other users.
+Squizer - a fullstack JavaScript quiz application.
 
-This repository contains only a backend part of whole application.
+This repository contains only a backend part of whole project.
 
-Technologies: Node.js, Express.js, MongoDB + Mongoose, JWT Authentication
+Used technologies:
+
+- Node.js
+- Express.js
+- MongoDB + Mongoose
+- JWT Authentication
 
 # How to start the app?
 
-type: nodemon \*.js
+cd backend
+nodemon *.js
