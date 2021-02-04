@@ -1,20 +1,29 @@
+const { validationResult } = require('express-validator');
+const responseTypes = require('./responseTypes');
+
 const prefferedExtensions = ['png', 'jpg', 'jpeg'];
 
-const validatePhoto = file => {
-  if (!file) return false;
-  if (file === 'defaultPhoto') return true;
+const validateAvatar = avatar => {
+  if (!avatar) return false;
+  if (avatar === 'default') return true;
   else {
-    if (file.name) {
-      return prefferedExtensions.includes(file.name.split('.')[1]) ? true : false;
+    if (avatar.name) {
+      return prefferedExtensions.includes(avatar.name.split('.')[1]);
     } else return false;
   }
 };
 
-const normalizeResponse = resp => [resp].flat();
+const validate = req => {
+  return validationResult(req).formatWith(({ msg }) => {
+    return { msg, type: responseTypes.error };
+  });
+};
+
+const getArrayOf = resp => [resp].flat();
 
 const makeResponse = (msg, type) => ({
   msg,
   type,
 });
 
-module.exports = { validatePhoto, normalizeResponse, makeResponse };
+module.exports = { validateAvatar, validate, getArrayOf, makeResponse };

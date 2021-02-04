@@ -1,9 +1,8 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { hashSync, compareSync } = require('bcrypt');
-const { validationResult } = require('express-validator');
 const messages = require('../utils/responseMessages');
-const { makeResponse, normalizeResponse } = require('../utils/functions');
+const { makeResponse, getArrayOf, validate } = require('../utils/functions');
 const responseTypes = require('../utils/responseTypes');
 
 class Helper {
@@ -18,12 +17,6 @@ class Helper {
 }
 
 class Validator extends Helper {
-  validate(req) {
-    return validationResult(req).formatWith(({ msg }) => {
-      return { msg, type: responseTypes.error };
-    });
-  }
-
   validateCSRF(req) {
     const clientToken = req.headers['csrf-token'];
     const serverToken = req.body._csrf;
@@ -37,14 +30,14 @@ class Validator extends Helper {
 }
 
 class AuthService extends Validator {
-  async SignUp(req) {
+  async register(req) {
     const credentials = req.body;
 
     try {
       const tokenValidation = this.validateCSRF(req);
       if (!tokenValidation) throw makeResponse(messages.INVALID_CSRF, responseTypes.error);
 
-      const credentialsValidation = this.validate(req);
+      const credentialsValidation = validate(req);
       if (!credentialsValidation.isEmpty()) throw credentialsValidation.array();
 
       const userExists = await this.ifUserExists(credentials.nickname);
@@ -58,25 +51,25 @@ class AuthService extends Validator {
 
       return {
         type: responseTypes.success,
-        msg: normalizeResponse(makeResponse(messages.REGISTRATION_SUCCESS, responseTypes.success)),
+        msg: getArrayOf(makeResponse(messages.REGISTRATION_SUCCESS, responseTypes.success)),
         userId: user._id,
       };
     } catch (e) {
       return {
         type: responseTypes.error,
-        msg: normalizeResponse(e),
+        msg: getArrayOf(e),
       };
     }
   }
 
-  async Login(req) {
+  async login(req) {
     const { nickname, password } = req.body;
 
     try {
       const tokenValidation = this.validateCSRF(req);
       if (!tokenValidation) throw makeResponse(messages.INVALID_CSRF, responseTypes.error);
 
-      const credentialsValidation = this.validate(req);
+      const credentialsValidation = validate(req);
       if (!credentialsValidation.isEmpty()) throw credentialsValidation.array();
 
       const user = await User.findOne({ nickname });
@@ -88,13 +81,13 @@ class AuthService extends Validator {
       const jwtToken = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
       return {
         type: responseTypes.success,
-        msg: normalizeResponse(makeResponse(messages.LOGIN_SUCCESS, responseTypes.success)),
+        msg: getArrayOf(makeResponse(messages.LOGIN_SUCCESS, responseTypes.success)),
         token: jwtToken,
       };
     } catch (e) {
       return {
         type: responseTypes.error,
-        msg: normalizeResponse(e),
+        msg: getArrayOf(e),
       };
     }
   }
