@@ -79,6 +79,7 @@ class AuthService extends Validator {
       if (!comparingResult) throw makeResponse(messages.LOGIN_INVALID_PASSWORD, responseTypes.error);
 
       const jwtToken = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+
       return {
         type: responseTypes.success,
         msg: getArrayOf(makeResponse(messages.LOGIN_SUCCESS, responseTypes.success)),
