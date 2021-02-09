@@ -18,6 +18,11 @@ const userSchema = new Schema(
       required: true,
       enum: ['custom', 'default'],
     },
+    points: {
+      type: Number,
+      default: 0,
+    },
+    visitedQuizzes: [mongoose.Schema.Types.ObjectId],
   },
   { collection: 'users', versionKey: false },
 );
