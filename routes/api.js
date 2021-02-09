@@ -8,6 +8,8 @@ const { check } = require('express-validator');
 const { maxDescriptionLength } = require('../utils/constants');
 
 router.get('/users/:id', verify, usersController.getUser);
+router.get('/users', verify, usersController.getUsers);
+router.put('/users', verify, usersController.updateUserAfterGame);
 router.get('/quizzes', verify, quizzesController.getAll);
 router.get('/quizzes/:id', verify, quizzesController.getQuiz);
 router.get('/quizzes/:id/questions', verify, quizzesController.getQuestions);
