@@ -1,5 +1,9 @@
 const User = require('../models/User');
 const responseTypes = require('../utils/responseTypes');
+const messages = require('../utils/responseMessages');
+const { makeResponse } = require('../utils/functions');
+const Quiz = require('../models/Quiz');
+const QuizQuestion = require('../models/QuizQuestion');
 
 class UserService {
   async getUser(id) {
@@ -33,7 +37,7 @@ class UserService {
           type: responseTypes.success,
           users,
         };
-      } else throw { type: responseTypes.error };
+      } else throw makeResponse(messages.USERS_NOT_FOUND, responseTypes.error);
     } catch (e) {
       return e;
     }
@@ -49,6 +53,70 @@ class UserService {
         await User.updateOne({ _id: userId }, { $inc: { points }, $push: { visitedQuizzes: quizId } });
       }
 
+      return { type: responseTypes.success };
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async getProfileData(id) {
+    try {
+      const [profileData] = await User.find({ _id: id });
+      const allUsers = await User.find({}).sort({ points: -1 });
+
+      const userRankingPlace = allUsers.findIndex(user => user._id.toString() === id) + 1;
+
+      profileData._doc.rankingPlace = userRankingPlace;
+      profileData.password = null;
+
+      if (profileData._id) {
+        return { user: profileData, type: responseTypes.success };
+      } else throw makeResponse(messages.USER_NOT_AUTHENTICATED, responseTypes.error);
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async getUserQuizzes(userId) {
+    try {
+      const userQuizzes = (await Quiz.find({ createdBy: userId })) || [];
+
+      return {
+        type: responseTypes.success,
+        quizzes: userQuizzes,
+      };
+    } catch (e) {
+      if (typeof e === 'object') e = makeResponse(messages.QUIZZES_FIND_ERROR, responseTypes.error);
+      return e;
+    }
+  }
+
+  async getUserCorrectAnswersRate(userId) {
+    try {
+      const [user] = await User.find({ _id: userId });
+      const visitedQuizzes = await QuizQuestion.find({ quizId: { $in: user.visitedQuizzes } });
+
+      if (user._id && visitedQuizzes) {
+        const quizzesQuestions = visitedQuizzes.map(quiz => quiz.questions);
+        const questionsQuantity = quizzesQuestions.reduce((prev, curr) => prev + curr.length, 0);
+        const correctAnswersRate = +((user.points / questionsQuantity) * 100).toFixed(2);
+
+        return {
+          type: responseTypes.success,
+          correctAnswersRate: correctAnswersRate || 0,
+        };
+      } else throw makeResponse(messages.STATISTICS_NOT_FOUND, responseTypes.error);
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async setUserAvatarType(userId, avatarType) {
+    try {
+      const [userToUpdate] = await User.find({ _id: userId });
+      if (!userToUpdate._id) throw { type: responseTypes.error };
+
+      await User.updateOne({ _id: userId }, { avatarType });
       return { type: responseTypes.success };
     } catch (e) {
       return e;
