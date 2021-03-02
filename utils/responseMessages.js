@@ -22,11 +22,12 @@ const LOGIN_SUCCESS = 'Logged successfully';
 // authentication
 
 const JWT_ACCESS_DENIED = 'Invalid token. Access denied.';
+const USER_NOT_AUTHENTICATED = 'You are not authenticated yet.';
 
 // quizzes service
 const QUIZZES_FIND_ERROR = `We haven't found any quizzes.`;
 const QUIZ_DOESNT_EXISTS = 'This quiz probably does not exist.';
-const INVALID_QUIZ_DATA = `Invalid quiz data, fill the form diligently. (title and description should be 3-${maxDescriptionLength} characters long)`;
+const INVALID_QUIZ_DATA = `Invalid quiz data, fill each of the fields.  TIP: title and description should be 3-${maxDescriptionLength} characters long`;
 
 // comments service
 
@@ -34,6 +35,11 @@ const ADDING_COMMENT_ERROR = `The comment cannot be added, try again later.`;
 const ADDING_COMMENT_SUCCESS = `The comment has been added successfully`;
 const ADDING_COMMENT_VALIDATION_ERROR = `The comment must have maximum 500 characters.`;
 const COMMENTS_NOT_FOUND = `Nobody comments this quiz yet.`;
+
+// users service
+
+const USERS_NOT_FOUND = 'User have not found';
+const STATISTICS_NOT_FOUND = 'Cannot get statistics';
 
 module.exports = {
   REGISTRATION_SUCCESS,
@@ -48,6 +54,7 @@ module.exports = {
   LOGIN_INVALID_DATA,
   LOGIN_INVALID_PASSWORD,
   JWT_ACCESS_DENIED,
+  USER_NOT_AUTHENTICATED,
   QUIZZES_FIND_ERROR,
   QUIZ_DOESNT_EXISTS,
   INVALID_QUIZ_DATA,
@@ -55,4 +62,6 @@ module.exports = {
   ADDING_COMMENT_SUCCESS,
   ADDING_COMMENT_VALIDATION_ERROR,
   COMMENTS_NOT_FOUND,
+  USERS_NOT_FOUND,
+  STATISTICS_NOT_FOUND,
 };
