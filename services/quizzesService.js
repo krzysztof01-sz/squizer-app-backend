@@ -115,6 +115,16 @@ class QuizzesService {
       return e;
     }
   }
+
+  async deleteQuiz(quizId) {
+    try {
+      await Quiz.deleteOne({ _id: quizId });
+      return makeResponse(messages.DELETING_QUIZ_SUCCESS, responseTypes.success);
+    } catch (e) {
+      if (typeof e === 'object') e = makeResponse(messages.DELETING_QUIZ_ERROR, responseTypes.error);
+      return e;
+    }
+  }
 }
 
 const Service = new QuizzesService();
