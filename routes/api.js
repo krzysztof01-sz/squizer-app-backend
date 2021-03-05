@@ -18,6 +18,7 @@ router.get('/quizzes', verify, quizzesController.getAll);
 router.get('/quizzes/:id', verify, quizzesController.getQuiz);
 router.get('/quizzes/:id/questions', verify, quizzesController.getQuestions);
 router.get('/quizzes/:id/comments', verify, quizzesController.getComments);
+router.delete('/quizzes/:id', verify, quizzesController.deleteQuiz);
 
 router.get('/account', verify, usersController.getProfileData);
 
