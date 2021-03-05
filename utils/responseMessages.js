@@ -25,7 +25,7 @@ const JWT_ACCESS_DENIED = 'Invalid token. Access denied.';
 const USER_NOT_AUTHENTICATED = 'You are not authenticated yet.';
 
 // quizzes service
-const QUIZZES_FIND_ERROR = `We haven't found any quizzes.`;
+const QUIZZES_NOT_FOUND = `There are no quizzes yet `;
 const QUIZ_DOESNT_EXISTS = 'This quiz probably does not exist.';
 const INVALID_QUIZ_DATA = `Invalid quiz data, fill each of the fields.  TIP: title and description should be 3-${maxDescriptionLength} characters long`;
 
@@ -55,7 +55,7 @@ module.exports = {
   LOGIN_INVALID_PASSWORD,
   JWT_ACCESS_DENIED,
   USER_NOT_AUTHENTICATED,
-  QUIZZES_FIND_ERROR,
+  QUIZZES_NOT_FOUND,
   QUIZ_DOESNT_EXISTS,
   INVALID_QUIZ_DATA,
   ADDING_COMMENT_ERROR,
