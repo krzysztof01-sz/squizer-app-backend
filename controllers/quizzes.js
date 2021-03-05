@@ -18,7 +18,9 @@ module.exports.quizzesController = {
 
   getQuestions: async (req, res) => {
     if (req.user) {
-      const response = await QuizzesService.getQuestions(req.params.id);
+      const quizId = req.params.id;
+      const response = await QuizzesService.getQuestions(quizId);
+
       const { type } = response;
       if (type === responseTypes.success) {
         const { questions } = response;
@@ -32,7 +34,8 @@ module.exports.quizzesController = {
 
   getComments: async (req, res) => {
     if (req.user) {
-      const response = await QuizzesService.getComments(req.params.id);
+      const quizId = req.params.id;
+      const response = await QuizzesService.getComments(quizId);
 
       const { type } = response;
       if (type === responseTypes.success) {
@@ -48,22 +51,36 @@ module.exports.quizzesController = {
   getQuiz: async (req, res) => {
     if (req.user) {
       const id = req.params.id;
-      const result = await QuizzesService.getQuiz(id);
-      if (result.type === responseTypes.success) {
-        res.status(201).json(result);
+      const actionResult = await QuizzesService.getQuiz(id);
+
+      if (actionResult.type === responseTypes.success) {
+        res.status(201).json(actionResult);
       } else {
-        res.status(400).json(result);
+        res.status(400).json(actionResult);
       }
     }
   },
 
   addQuiz: async (req, res) => {
     if (req.user) {
-      const result = await QuizzesService.addQuiz(req);
-      if (result.type === responseTypes.success) {
-        res.status(201).json(result);
+      const actionResult = await QuizzesService.addQuiz(req);
+
+      if (actionResult.type === responseTypes.success) {
+        res.status(201).json(actionResult);
       } else {
-        res.status(400).json(result);
+        res.status(400).json(actionResult);
+      }
+    }
+  },
+
+  addComment: async (req, res) => {
+    if (req.user) {
+      const { type, msg } = await QuizzesService.addComment(req);
+
+      if (type === responseTypes.success) {
+        res.status(201).json({ msg, type });
+      } else {
+        res.status(401).json({ msg, type });
       }
     }
   },
