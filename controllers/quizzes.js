@@ -84,4 +84,17 @@ module.exports.quizzesController = {
       }
     }
   },
+
+  deleteQuiz: async (req, res) => {
+    if (req.user) {
+      const quizId = req.params.id;
+      const { type, msg } = await QuizzesService.deleteQuiz(quizId);
+
+      if (type === responseTypes.success) {
+        res.status(200).json({ msg, type });
+      } else {
+        res.status(500).json({ msg, type });
+      }
+    }
+  },
 };
