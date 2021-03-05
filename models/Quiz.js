@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const questionSchema = require('./Question');
+const { commentSchema } = require('./QuizComment');
 
 const Schema = mongoose.Schema;
 
@@ -21,6 +23,8 @@ const quizSchema = new Schema(
       type: String,
       required: true,
     },
+    questions: [questionSchema],
+    comments: [commentSchema],
   },
   { collection: 'quizzes', versionKey: false, timestamps: { createdAt: 'creationDate' } },
 );
