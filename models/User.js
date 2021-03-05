@@ -18,9 +18,15 @@ const userSchema = new Schema(
       required: true,
       enum: ['custom', 'default'],
     },
-    points: {
-      type: Number,
-      default: 0,
+    stats: {
+      correctAnswers: {
+        type: Number,
+        default: 0,
+      },
+      givenAnswers: {
+        type: Number,
+        default: 0,
+      },
     },
     visitedQuizzes: [mongoose.Schema.Types.ObjectId],
   },
