@@ -8,7 +8,7 @@ const responseTypes = require('../utils/responseTypes');
 class Helper {
   async ifUserExists(nickname) {
     const usersWithThatNick = await User.find({ nickname });
-    return usersWithThatNick.length > 0 ? true : false;
+    return usersWithThatNick.length > 0;
   }
 
   hashPassword(passwordToEncrypt) {
@@ -21,7 +21,7 @@ class Validator extends Helper {
     const clientToken = req.headers['csrf-token'];
     const serverToken = req.body._csrf;
 
-    return clientToken === serverToken ? true : false;
+    return clientToken === serverToken;
   }
 
   verifyPassword(password, hashedPassword) {
