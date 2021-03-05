@@ -40,6 +40,8 @@ const COMMENTS_NOT_FOUND = `Nobody comments this quiz yet.`;
 
 const USERS_NOT_FOUND = 'User have not found';
 const STATISTICS_NOT_FOUND = 'Cannot get statistics';
+const DELETING_QUIZ_ERROR = 'Deleting error occured.';
+const DELETING_QUIZ_SUCCESS = 'The quiz had been deleted successfully.';
 
 module.exports = {
   REGISTRATION_SUCCESS,
@@ -64,4 +66,6 @@ module.exports = {
   COMMENTS_NOT_FOUND,
   USERS_NOT_FOUND,
   STATISTICS_NOT_FOUND,
+  DELETING_QUIZ_ERROR,
+  DELETING_QUIZ_SUCCESS,
 };
