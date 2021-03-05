@@ -2,24 +2,20 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const quizCommentSchema = new Schema(
+const commentSchema = new Schema(
   {
     authorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-    },
-    quizId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Quiz',
     },
     content: {
       type: String,
       required: true,
     },
   },
-  { collection: 'quiz_comments', timestamps: { createdAt: 'creationDate' }, versionKey: false },
+  { timestamps: { createdAt: 'creationDate' } },
 );
 
-const QuizComment = mongoose.model('Comment', quizCommentSchema);
+const QuizComment = mongoose.model('Comment', commentSchema);
 
-module.exports = { QuizComment, quizCommentSchema };
+module.exports = { QuizComment, commentSchema };
