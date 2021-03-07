@@ -8,8 +8,8 @@ module.exports.authController = {
 
     if (type === responseTypes.success) {
       const { token } = response;
-      res.header('auth-token', token);
-      res.status(200).json({ msg, type, token });
+      res.cookie('token', token, { httpOnly: true, secure: process.env.ENV === 'production', sameSite: 'strict' });
+      res.status(200).json({ msg, type });
     } else {
       res.status(401).json({ msg, type });
     }

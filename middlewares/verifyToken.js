@@ -4,7 +4,7 @@ const messages = require('../utils/responseMessages');
 const responseTypes = require('../utils/responseTypes');
 
 const verify = (req, res, next) => {
-  const token = req.header('auth-token');
+  const token = req.cookies.token;
   try {
     if (!token) throw makeResponse(messages.JWT_ACCESS_DENIED, responseTypes.error);
     const user = jwt.verify(token, process.env.JWT_SECRET);

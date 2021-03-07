@@ -13,12 +13,11 @@ const authRoutes = require('./routes/auth');
 mongoose.Promise = global.Promise;
 
 app.use(helmet());
-app.disable('X-Powered-By');
 
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cors({ credentials: true, origin: 'http://localhost:8000' }));
 app.use(hpp());
 
 const PORT = process.env.PORT || 8080;
