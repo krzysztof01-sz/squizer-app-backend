@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { photoTypes } = require('../utils/photoTypes');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
@@ -16,7 +17,7 @@ const userSchema = new Schema(
     avatarType: {
       type: String,
       required: true,
-      enum: ['custom', 'default'],
+      enum: [photoTypes.custom, photoTypes.default],
     },
     stats: {
       correctAnswers: {
