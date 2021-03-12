@@ -17,7 +17,12 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors({ credentials: true, origin: 'http://localhost:8000' }));
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.ENV === 'production' ? 'https://squizer.netlify.app' : 'http://localhost:8000',
+  }),
+);
 app.use(hpp());
 
 const PORT = process.env.PORT || 8080;
