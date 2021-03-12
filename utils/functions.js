@@ -1,11 +1,12 @@
 const { validationResult } = require('express-validator');
+const { photoTypes } = require('./photoTypes');
 const responseTypes = require('./responseTypes');
 
 const prefferedExtensions = ['png', 'jpg', 'jpeg'];
 
 const validateAvatar = avatar => {
   if (!avatar) return false;
-  if (avatar === 'default') return true;
+  if (avatar === photoTypes.default) return true;
   else {
     if (avatar.name) {
       return prefferedExtensions.includes(avatar.name.split('.')[1]);
