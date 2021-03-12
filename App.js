@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
     credentials: true,
-    origin: process.env.ENV === 'production' ? 'https://squizer.netlify.app' : 'http://localhost:8000',
+    origin: 'https://squizer.netlify.app',
   }),
 );
 app.use(hpp());
