@@ -9,7 +9,7 @@ Used technologies:
 - Node.js
 - Express.js
 - MongoDB + Mongoose
-- JWT Authentication
+- JWT + Cookies Authentication
 
 # How to start the app?
 
