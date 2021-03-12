@@ -21,11 +21,11 @@ const LOGIN_SUCCESS = 'Logged successfully';
 
 // authentication
 
-const JWT_ACCESS_DENIED = 'Invalid token. Access denied.';
+const JWT_ACCESS_DENIED = 'Invalid token. Login first.';
 const USER_NOT_AUTHENTICATED = 'You are not authenticated yet.';
 
 // quizzes service
-const QUIZZES_NOT_FOUND = `There are no quizzes yet `;
+const QUIZZES_NOT_FOUND = `There are no quizzes yet. Create the first one!`;
 const QUIZ_DOESNT_EXISTS = 'This quiz probably does not exist.';
 const INVALID_QUIZ_DATA = `Invalid quiz data, fill each of the fields.  TIP: title and description should be 3-${maxDescriptionLength} characters long`;
 
