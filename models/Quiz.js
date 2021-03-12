@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { quizCategories } = require('../utils/constants');
 const questionSchema = require('./Question');
 const { commentSchema } = require('./QuizComment');
 
@@ -15,7 +16,7 @@ const quizSchema = new Schema(
       required: true,
     },
     category: {
-      enum: ['maths', 'it', 'english', 'riddles'],
+      enum: quizCategories,
       type: String,
       required: true,
     },
