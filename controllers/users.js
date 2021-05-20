@@ -1,5 +1,5 @@
-const UsersService = require('../services/usersService');
-const responseTypes = require('../utils/responseTypes');
+const UsersService = require("../services/usersService");
+const responseTypes = require("../utils/responseTypes");
 
 module.exports.usersController = {
   getUser: async (req, res) => {
@@ -24,7 +24,7 @@ module.exports.usersController = {
 
       if (type === responseTypes.success) {
         let { users } = response;
-        users = users.map(user => ({ ...user, isItMe: user._id.toString() === userId }));
+        users = users.map((user) => ({ ...user, isItMe: user._id.toString() === userId }));
 
         res.status(200).json({ type, users });
       } else {
@@ -33,11 +33,11 @@ module.exports.usersController = {
     }
   },
 
-  updateUserAfterGame: async (req, res) => {
+  updateUserStatistics: async (req, res) => {
     if (req.user) {
       const userId = req.user._id;
       const { quizId, stats } = req.body;
-      const { type } = await UsersService.updateUserAfterGame(userId, quizId, stats);
+      const { type } = await UsersService.updateUserStatistics(userId, quizId, stats);
 
       if (type === responseTypes.success) {
         res.status(200).json({ type });
@@ -80,13 +80,13 @@ module.exports.usersController = {
     }
   },
 
-  setUserAvatarType: async (req, res) => {
+  updateUserAvatarType: async (req, res) => {
     if (req.user) {
-      const { id: userId, avatarType } = req.params;
+      const { id: userId, type } = req.params;
 
-      const { type } = await UsersService.setUserAvatarType(userId, avatarType);
+      const response = await UsersService.updateUserAvatarType(userId, type);
 
-      if (type === responseTypes.success) {
+      if (response.type === responseTypes.success) {
         res.status(200).json({ type });
       } else {
         res.status(400).json({ type });
