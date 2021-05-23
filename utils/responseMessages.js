@@ -1,32 +1,33 @@
-const { maxDescriptionLength } = require('../utils/constants');
+const { maxDescriptionLength } = require("../utils/constants");
 
 // signing up
 
-const INVALID_NICKNAME = 'Invalid nickname (3-15 characters)';
-const INVALID_PASSWORD = 'Invalid password (8-15 characters)';
-const DIFFERENT_PASSWORDS = 'Passwords are not the same';
+const INVALID_NICKNAME = "Invalid nickname (3-15 characters)";
+const INVALID_PASSWORD = "Invalid password (8-15 characters)";
+const DIFFERENT_PASSWORDS = "Passwords are not the same";
 
-const NICKNAME_RESERVED = 'The nickname is already in use by another account';
-const REGISTRATION_ERROR = 'Error while creating a new user. Try again later';
-const REGISTRATION_SUCCESS = 'Registred successfully';
+const NICKNAME_RESERVED = "The nickname is already in use by another account";
+const REGISTRATION_ERROR = "Error while creating a new user. Try again later";
+const REGISTRATION_SUCCESS = "Registred successfully";
 
-const AVATAR_REQUIRED = 'Load the avatar or choose a file with a right extension (jpg, jpeg or png)';
-const INVALID_CSRF = 'Invalid CSRF token';
+const AVATAR_REQUIRED = "Load the avatar or choose a file with a right extension (jpg, jpeg or png)";
+const INVALID_CSRF = "Invalid CSRF token";
 
 // logging
 
-const LOGIN_INVALID_PASSWORD = 'Invalid password';
-const LOGIN_INVALID_DATA = 'Invalid logging data';
-const LOGIN_SUCCESS = 'Logged successfully';
+const LOGIN_INVALID_PASSWORD = "Invalid password";
+const LOGIN_INVALID_DATA = "Invalid logging data";
+const LOGIN_SUCCESS = "Logged successfully";
+const LOGOUT = "User is logged out";
 
 // authentication
 
-const JWT_ACCESS_DENIED = 'Invalid token. Login first.';
-const USER_NOT_AUTHENTICATED = 'You are not authenticated yet.';
+const JWT_ACCESS_DENIED = "Invalid token. Login first.";
+const USER_NOT_AUTHENTICATED = "You are not authenticated yet.";
 
 // quizzes service
 const QUIZZES_NOT_FOUND = `There are no quizzes yet. Create the first one!`;
-const QUIZ_DOESNT_EXISTS = 'This quiz probably does not exist.';
+const QUIZ_DOESNT_EXISTS = "This quiz probably does not exist.";
 const INVALID_QUIZ_DATA = `Invalid quiz data, fill each of the fields.  TIP: title and description should be 3-${maxDescriptionLength} characters long`;
 
 // comments service
@@ -38,10 +39,10 @@ const COMMENTS_NOT_FOUND = `Nobody comments this quiz yet.`;
 
 // users service
 
-const USERS_NOT_FOUND = 'User have not found';
-const STATISTICS_NOT_FOUND = 'Cannot get statistics';
-const DELETING_QUIZ_ERROR = 'Deleting error occured.';
-const DELETING_QUIZ_SUCCESS = 'The quiz had been deleted successfully.';
+const USERS_NOT_FOUND = "User have not found";
+const STATISTICS_NOT_FOUND = "Cannot get statistics";
+const DELETING_QUIZ_ERROR = "Deleting error occured.";
+const DELETING_QUIZ_SUCCESS = "The quiz had been deleted successfully.";
 
 module.exports = {
   REGISTRATION_SUCCESS,
@@ -55,6 +56,7 @@ module.exports = {
   INVALID_CSRF,
   LOGIN_INVALID_DATA,
   LOGIN_INVALID_PASSWORD,
+  LOGOUT,
   JWT_ACCESS_DENIED,
   USER_NOT_AUTHENTICATED,
   QUIZZES_NOT_FOUND,

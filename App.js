@@ -1,14 +1,14 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const express = require('express');
+const express = require("express");
 const app = express();
-const cors = require('cors');
-const helmet = require('helmet');
-const hpp = require('hpp');
-const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
-const apiRoutes = require('./routes/api');
-const authRoutes = require('./routes/auth');
+const cors = require("cors");
+const helmet = require("helmet");
+const hpp = require("hpp");
+const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const apiRoutes = require("./routes/api");
+const authRoutes = require("./routes/auth");
 
 mongoose.Promise = global.Promise;
 
@@ -20,17 +20,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
     credentials: true,
-    origin: 'https://squizer.netlify.app',
+    origin: "http://localhost:8000",
   }),
 );
 app.use(hpp());
 
 const PORT = process.env.PORT || 8080;
 
-app.get('/', (req, res) => res.send('Hello world!'));
+app.get("/", (req, res) => res.send("Hello world!"));
 
-app.use('/api', apiRoutes);
-app.use('/auth', authRoutes);
+app.use("/api", apiRoutes);
+app.use("/auth", authRoutes);
 
 app.listen(PORT, () =>
   mongoose
@@ -40,7 +40,7 @@ app.listen(PORT, () =>
       useFindAndModify: false,
       useUnifiedTopology: true,
     })
-    .then(() => console.log('connection with mongodb has started')),
+    .then(() => console.log("connection with mongodb has started")),
 );
 
 module.exports = app;

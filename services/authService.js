@@ -1,9 +1,9 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const { hashSync, compareSync } = require('bcrypt');
-const messages = require('../utils/responseMessages');
-const { makeResponse, getArrayOf, validate } = require('../utils/functions');
-const responseTypes = require('../utils/responseTypes');
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+const { hashSync, compareSync } = require("bcrypt");
+const messages = require("../utils/responseMessages");
+const { makeResponse, getArrayOf, validate } = require("../utils/functions");
+const responseTypes = require("../utils/responseTypes");
 
 class Helper {
   async ifUserExists(nickname) {
@@ -18,7 +18,7 @@ class Helper {
 
 class Validator extends Helper {
   validateCSRF(req) {
-    const clientToken = req.headers['csrf-token'];
+    const clientToken = req.headers["csrf-token"];
     const serverToken = req.body._csrf;
 
     return clientToken === serverToken;
@@ -79,11 +79,13 @@ class AuthService extends Validator {
       if (!comparingResult) throw makeResponse(messages.LOGIN_INVALID_PASSWORD, responseTypes.error);
 
       const jwtToken = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+      user.password = undefined;
 
       return {
         type: responseTypes.success,
         msg: getArrayOf(makeResponse(messages.LOGIN_SUCCESS, responseTypes.success)),
         token: jwtToken,
+        user,
       };
     } catch (e) {
       return {
@@ -91,6 +93,16 @@ class AuthService extends Validator {
         msg: getArrayOf(e),
       };
     }
+  }
+
+  async findUser(id) {
+    const [user] = await User.find({ _id: id });
+
+    if (user) {
+      user.password = undefined;
+    }
+
+    return user;
   }
 }
 

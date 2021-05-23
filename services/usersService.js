@@ -1,8 +1,8 @@
-const User = require('../models/User');
-const Quiz = require('../models/Quiz');
-const responseTypes = require('../utils/responseTypes');
-const messages = require('../utils/responseMessages');
-const { makeResponse } = require('../utils/functions');
+const User = require("../models/User");
+const Quiz = require("../models/Quiz");
+const responseTypes = require("../utils/responseTypes");
+const messages = require("../utils/responseMessages");
+const { makeResponse } = require("../utils/functions");
 
 class UserService {
   async getUser(id) {
@@ -21,7 +21,7 @@ class UserService {
 
   async getUsers() {
     try {
-      const response = await User.find({}).sort({ 'stats.correctAnswers': -1 });
+      const response = await User.find({}).sort({ "stats.correctAnswers": -1 });
 
       const users = response.map(({ _id, nickname, points, avatarType, stats }) => {
         return {
@@ -43,7 +43,7 @@ class UserService {
     }
   }
 
-  async updateUserAfterGame(userId, quizId, stats) {
+  async updateUserStatistics(userId, quizId, stats) {
     try {
       const [userToUpdate] = await User.find({ _id: userId });
 
@@ -54,8 +54,8 @@ class UserService {
           { _id: userId },
           {
             $inc: {
-              'stats.correctAnswers': stats.correctAnswers,
-              'stats.givenAnswers': stats.givenAnswers,
+              "stats.correctAnswers": stats.correctAnswers,
+              "stats.givenAnswers": stats.givenAnswers,
             },
             $push: { visitedQuizzes: quizId },
           },
@@ -71,8 +71,8 @@ class UserService {
   async getProfileData(id) {
     try {
       const [profileData] = await User.find({ _id: id });
-      const allUsers = await User.find({}).sort({ 'stats.correctAnswers': -1 });
-      const userRankingPlace = allUsers.findIndex(user => user._id.toString() === id) + 1;
+      const allUsers = await User.find({}).sort({ "stats.correctAnswers": -1 });
+      const userRankingPlace = allUsers.findIndex((user) => user._id.toString() === id) + 1;
 
       profileData._doc.rankingPlace = userRankingPlace;
       profileData.password = null;
@@ -94,12 +94,12 @@ class UserService {
         quizzes: userQuizzes,
       };
     } catch (e) {
-      if (typeof e === 'object') e = makeResponse(messages.QUIZZES_FIND_ERROR, responseTypes.error);
+      if (typeof e === "object") e = makeResponse(messages.QUIZZES_FIND_ERROR, responseTypes.error);
       return e;
     }
   }
 
-  async setUserAvatarType(userId, avatarType) {
+  async updateUserAvatarType(userId, avatarType) {
     try {
       const [userToUpdate] = await User.find({ _id: userId });
       if (!userToUpdate._id) throw { type: responseTypes.error };

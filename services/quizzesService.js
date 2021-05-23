@@ -1,8 +1,8 @@
-const Quiz = require('../models/Quiz');
-const { QuizComment } = require('../models/QuizComment');
-const { makeResponse, getArrayOf, validate } = require('../utils/functions');
-const messages = require('../utils/responseMessages');
-const responseTypes = require('../utils/responseTypes');
+const Quiz = require("../models/Quiz");
+const { QuizComment } = require("../models/QuizComment");
+const { makeResponse, getArrayOf, validate } = require("../utils/functions");
+const messages = require("../utils/responseMessages");
+const responseTypes = require("../utils/responseTypes");
 
 class QuizzesService {
   async getAllQuizzes() {
@@ -21,7 +21,7 @@ class QuizzesService {
 
   async getQuestions(quizId) {
     try {
-      const [query] = await Quiz.find({ _id: quizId }).select('questions');
+      const [query] = await Quiz.find({ _id: quizId }).select("questions");
       const { questions } = query;
 
       if (questions.length > 0) {
@@ -31,14 +31,14 @@ class QuizzesService {
         };
       } else throw messages.QUIZ_DOESNT_EXISTS;
     } catch (e) {
-      if (typeof e === 'object') e = messages.QUIZ_DOESNT_EXISTS;
+      if (typeof e === "object") e = messages.QUIZ_DOESNT_EXISTS;
       return makeResponse(e, responseTypes.error);
     }
   }
 
   async getComments(quizId) {
     try {
-      const [query] = await Quiz.find({ _id: quizId }).select('comments');
+      const [query] = await Quiz.find({ _id: quizId }).select("comments");
       const sortedComments = query.comments.sort((a, b) => (a.creationDate > b.creationDate ? -1 : 1));
 
       return {
@@ -46,7 +46,7 @@ class QuizzesService {
         type: responseTypes.success,
       };
     } catch (e) {
-      if (typeof e === 'object') e = messages.COMMENTS_NOT_FOUND;
+      if (typeof e === "object") e = messages.COMMENTS_NOT_FOUND;
       return makeResponse(e, responseTypes.error);
     }
   }
@@ -61,7 +61,7 @@ class QuizzesService {
         data: quiz,
       };
     } catch (e) {
-      if (typeof e === 'object') e = messages.QUIZ_DOESNT_EXISTS;
+      if (typeof e === "object") e = messages.QUIZ_DOESNT_EXISTS;
       return makeResponse(e, responseTypes.error);
     }
   }
@@ -80,13 +80,13 @@ class QuizzesService {
       if (createdQuiz._id) {
         return {
           type: responseTypes.success,
-          msg: getArrayOf(makeResponse(`Quiz: ${createdQuiz.title} has created.`, 'success')),
+          msg: getArrayOf(makeResponse(`Quiz: ${createdQuiz.title} has created.`, "success")),
         };
       } else {
         throw messages.INVALID_QUIZ_DATA;
       }
     } catch (e) {
-      if (typeof e === 'object') e = messages.INVALID_QUIZ_DATA;
+      if (typeof e === "object") e = messages.INVALID_QUIZ_DATA;
 
       return {
         type: responseTypes.error,
@@ -111,7 +111,7 @@ class QuizzesService {
 
       return makeResponse(messages.ADDING_COMMENT_SUCCESS, responseTypes.success);
     } catch (e) {
-      if (typeof e === 'object') e = makeResponse(messages.ADDING_COMMENT_ERROR, responseTypes.error);
+      if (typeof e === "object") e = makeResponse(messages.ADDING_COMMENT_ERROR, responseTypes.error);
       return e;
     }
   }
@@ -121,7 +121,7 @@ class QuizzesService {
       await Quiz.deleteOne({ _id: quizId });
       return makeResponse(messages.DELETING_QUIZ_SUCCESS, responseTypes.success);
     } catch (e) {
-      if (typeof e === 'object') e = makeResponse(messages.DELETING_QUIZ_ERROR, responseTypes.error);
+      if (typeof e === "object") e = makeResponse(messages.DELETING_QUIZ_ERROR, responseTypes.error);
       return e;
     }
   }
