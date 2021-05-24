@@ -9,20 +9,16 @@ const verify = require("../middlewares/verifyToken");
 
 const router = express.Router();
 
-router.post(
-  "/login",
-  [
-    check("nickname", messages.INVALID_NICKNAME).trim().isLength({ min: 3, max: 15 }),
-    check("password", messages.INVALID_PASSWORD).trim().isLength({ min: 8, max: 15 }),
-  ],
-  authController.login,
-);
+router.post("/login", authController.login);
+router.get("/refetch", verify, authController.refetch);
+router.get("/logout", authController.logout);
+router.get("/csrf", csrfProtection, authController.getCsrf);
 
 router.post(
   "/register",
   [
     check("nickname", messages.INVALID_NICKNAME).trim().isLength({ min: 3, max: 15 }),
-    check("password", messages.INVALID_PASSWORD).trim().isLength({ min: 8, max: 15 }),
+    check("password", messages.INVALID_PASSWORD).trim().isLength({ min: 8, max: 50 }),
     check("confirmedPassword", messages.DIFFERENT_PASSWORDS)
       .exists()
       .trim()
@@ -33,9 +29,5 @@ router.post(
   ],
   authController.register,
 );
-
-router.get("/refetch", verify, authController.refetch);
-router.get("/logout", authController.logout);
-router.get("/csrf", csrfProtection, authController.getCsrf);
 
 module.exports = router;
