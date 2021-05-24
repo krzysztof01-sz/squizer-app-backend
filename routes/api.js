@@ -13,7 +13,7 @@ router.put("/users", verify, usersController.updateUserStatistics);
 router.get("/users/:id", verify, usersController.getUser);
 router.get("/users/:id/quizzes", verify, usersController.getUserQuizzes);
 router.put("/users/:id/update-avatar/:type", verify, usersController.updateUserAvatarType);
-router.get("/me", verify, usersController.getProfileData);
+router.get("/users/:id/ranking-place", verify, usersController.getUserRankingPlace);
 
 router.get("/quizzes", verify, quizzesController.getAll);
 router.get("/quizzes/:id", verify, quizzesController.getQuiz);
