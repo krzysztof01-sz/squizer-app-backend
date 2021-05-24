@@ -3,7 +3,7 @@ const { maxDescriptionLength } = require("../utils/constants");
 // signing up
 
 const INVALID_NICKNAME = "Invalid nickname (3-15 characters)";
-const INVALID_PASSWORD = "Invalid password (8-15 characters)";
+const INVALID_PASSWORD = "Invalid password (8-50 characters)";
 const DIFFERENT_PASSWORDS = "Passwords are not the same";
 
 const NICKNAME_RESERVED = "The nickname is already in use by another account";
@@ -39,7 +39,7 @@ const COMMENTS_NOT_FOUND = `Nobody comments this quiz yet.`;
 
 // users service
 
-const USERS_NOT_FOUND = "User have not found";
+const USERS_NOT_FOUND = "Users not found";
 const STATISTICS_NOT_FOUND = "Cannot get statistics";
 const DELETING_QUIZ_ERROR = "Deleting error occured.";
 const DELETING_QUIZ_SUCCESS = "The quiz had been deleted successfully.";
