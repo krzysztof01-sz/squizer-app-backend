@@ -1,15 +1,13 @@
-const UsersService = require("../services/usersService");
+const UsersService = require("../services/users");
 const responseTypes = require("../utils/responseTypes");
 
 module.exports.usersController = {
   getUser: async (req, res) => {
     if (req.user) {
-      const response = await UsersService.getUser(req.params.id);
+      const { type, data } = await UsersService.getUser(req.params.id);
 
-      const { type } = response;
       if (type === responseTypes.success) {
-        const { user } = response;
-        res.status(200).json({ type, user });
+        res.status(200).json({ type, data });
       } else {
         res.status(400).json({ type });
       }
@@ -18,17 +16,12 @@ module.exports.usersController = {
 
   getUsers: async (req, res) => {
     if (req.user) {
-      const userId = req.user._id.toString();
-      const response = await UsersService.getUsers();
-      const { type } = response;
+      const { type, data, msg } = await UsersService.getUsers();
 
       if (type === responseTypes.success) {
-        let { users } = response;
-        users = users.map((user) => ({ ...user, isItMe: user._id.toString() === userId }));
-
-        res.status(200).json({ type, users });
+        res.status(200).json({ type, data });
       } else {
-        res.status(400).json({ type });
+        res.status(400).json({ type, msg });
       }
     }
   },
@@ -37,27 +30,23 @@ module.exports.usersController = {
     if (req.user) {
       const userId = req.user._id;
       const { quizId, stats } = req.body;
-      const { type } = await UsersService.updateUserStatistics(userId, quizId, stats);
+      const { type, data, msg } = await UsersService.updateUserStatistics(userId, quizId, stats);
 
       if (type === responseTypes.success) {
-        res.status(200).json({ type });
+        res.status(200).json({ type, data });
       } else {
-        res.status(400).json({ type });
+        res.status(400).json({ type, msg });
       }
     }
   },
 
-  getProfileData: async (req, res) => {
+  getUserRankingPlace: async (req, res) => {
     if (req.user) {
-      const { user } = req;
-      const response = await UsersService.getProfileData(user._id);
+      const { type, data, msg } = await UsersService.getUserRankingPlace(req.user._id);
 
-      const { type } = response;
       if (type === responseTypes.success) {
-        const { user } = response;
-        res.status(200).json({ type, user });
+        res.status(200).json({ type, data });
       } else {
-        const { msg } = response;
         res.status(400).json({ type, msg });
       }
     }
@@ -65,16 +54,12 @@ module.exports.usersController = {
 
   getUserQuizzes: async (req, res) => {
     if (req.user) {
-      const { id: userId } = req.params;
+      const userId = req.params.id;
+      const { type, data, msg } = await UsersService.getUserQuizzes(userId);
 
-      const response = await UsersService.getUserQuizzes(userId);
-
-      const { type } = response;
       if (type === responseTypes.success) {
-        const { quizzes } = response;
-        res.status(200).json({ type, quizzes });
+        res.status(200).json({ type, data });
       } else {
-        const { msg } = response;
         res.status(400).json({ type, msg });
       }
     }
@@ -82,14 +67,13 @@ module.exports.usersController = {
 
   updateUserAvatarType: async (req, res) => {
     if (req.user) {
-      const { id: userId, type } = req.params;
+      const { id: userId, type: avatarType } = req.params;
+      const { type, msg } = await UsersService.updateUserAvatarType(userId, avatarType);
 
-      const response = await UsersService.updateUserAvatarType(userId, type);
-
-      if (response.type === responseTypes.success) {
-        res.status(200).json({ type });
+      if (type === responseTypes.success) {
+        res.status(200).json({ type, msg });
       } else {
-        res.status(400).json({ type });
+        res.status(400).json({ type, msg });
       }
     }
   },

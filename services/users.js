@@ -11,7 +11,7 @@ class UserService {
       if (searchedUser) {
         return {
           type: responseTypes.success,
-          user: searchedUser,
+          data: searchedUser,
         };
       } else throw { type: responseTypes.error };
     } catch (e) {
@@ -32,10 +32,11 @@ class UserService {
           stats,
         };
       });
-      if (users) {
+
+      if (users.length > 0) {
         return {
           type: responseTypes.success,
-          users,
+          data: users,
         };
       } else throw makeResponse(messages.USERS_NOT_FOUND, responseTypes.error);
     } catch (e) {
@@ -62,24 +63,27 @@ class UserService {
         );
       }
 
-      return { type: responseTypes.success };
+      const { type, data } = await this.getUser(userId);
+      if (type === responseTypes.error) throw { type };
+
+      return {
+        type,
+        data,
+      };
     } catch (e) {
-      return e;
+      return makeResponse(messages.UPDATING_USER_RESULT_ERROR, responseTypes.error);
     }
   }
 
-  async getProfileData(id) {
+  async getUserRankingPlace(userId) {
     try {
-      const [profileData] = await User.find({ _id: id });
-      const allUsers = await User.find({}).sort({ "stats.correctAnswers": -1 });
-      const userRankingPlace = allUsers.findIndex((user) => user._id.toString() === id) + 1;
+      const users = await User.find({}).sort({ "stats.correctAnswers": -1 });
+      const userRankingPlace = users.findIndex((user) => user._id.toString() === userId) + 1;
 
-      profileData._doc.rankingPlace = userRankingPlace;
-      profileData.password = null;
-
-      if (profileData._id) {
-        return { user: profileData, type: responseTypes.success };
-      } else throw makeResponse(messages.USER_NOT_AUTHENTICATED, responseTypes.error);
+      return {
+        type: responseTypes.success,
+        data: userRankingPlace,
+      };
     } catch (e) {
       return e;
     }
@@ -87,14 +91,13 @@ class UserService {
 
   async getUserQuizzes(userId) {
     try {
-      const userQuizzes = (await Quiz.find({ createdBy: userId })) || [];
+      const userQuizzes = (await Quiz.find({ createdBy: userId }).sort({ creationDate: -1 })) || [];
 
       return {
         type: responseTypes.success,
-        quizzes: userQuizzes,
+        data: userQuizzes,
       };
     } catch (e) {
-      if (typeof e === "object") e = makeResponse(messages.QUIZZES_FIND_ERROR, responseTypes.error);
       return e;
     }
   }
@@ -102,11 +105,12 @@ class UserService {
   async updateUserAvatarType(userId, avatarType) {
     try {
       const [userToUpdate] = await User.find({ _id: userId });
-      if (!userToUpdate._id) throw { type: responseTypes.error };
+      if (!userToUpdate._id) throw makeResponse(messages.UPDATING_AVATAR_ERROR, responseTypes.error);
 
       await User.updateOne({ _id: userId }, { avatarType });
-      return { type: responseTypes.success };
+      return makeResponse(messages.UPDATING_AVATAR_SUCCESS, responseTypes.success);
     } catch (e) {
+      if (typeof e === "object") e = makeResponse(messages.UPDATING_AVATAR_ERROR, responseTypes.error);
       return e;
     }
   }

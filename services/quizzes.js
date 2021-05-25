@@ -3,15 +3,17 @@ const { QuizComment } = require("../models/QuizComment");
 const { makeResponse, getArrayOf, validate } = require("../utils/functions");
 const messages = require("../utils/responseMessages");
 const responseTypes = require("../utils/responseTypes");
+const { shuffleArray } = require("../utils/functions");
 
 class QuizzesService {
-  async getAllQuizzes() {
+  async getQuizzes() {
     try {
-      const quizzes = await Quiz.find({}).sort({ creationDate: -1 });
+      let quizzes = await Quiz.find({}).sort({ creationDate: -1 });
+      quizzes = [];
       if (quizzes.length > 0) {
         return {
           type: responseTypes.success,
-          quizzes,
+          data: quizzes,
         };
       } else throw messages.QUIZZES_NOT_FOUND;
     } catch (e) {
@@ -19,15 +21,15 @@ class QuizzesService {
     }
   }
 
-  async getQuestions(quizId) {
+  async getQuizQuestions(quizId) {
     try {
-      const [query] = await Quiz.find({ _id: quizId }).select("questions");
-      const { questions } = query;
+      const [{ questions }] = await Quiz.find({ _id: quizId }).select("questions");
 
       if (questions.length > 0) {
+        questions.map((question) => shuffleArray(question.answers));
         return {
-          questions,
           type: responseTypes.success,
+          data: questions,
         };
       } else throw messages.QUIZ_DOESNT_EXISTS;
     } catch (e) {
@@ -36,17 +38,16 @@ class QuizzesService {
     }
   }
 
-  async getComments(quizId) {
+  async getQuizComments(quizId) {
     try {
-      const [query] = await Quiz.find({ _id: quizId }).select("comments");
-      const sortedComments = query.comments.sort((a, b) => (a.creationDate > b.creationDate ? -1 : 1));
+      const [query] = (await Quiz.find({ _id: quizId }).select("comments")) || [];
+      const comments = query.comments.sort((a, b) => (a.creationDate > b.creationDate ? -1 : 1));
 
       return {
-        comments: sortedComments,
         type: responseTypes.success,
+        data: comments,
       };
     } catch (e) {
-      if (typeof e === "object") e = messages.COMMENTS_NOT_FOUND;
       return makeResponse(e, responseTypes.error);
     }
   }
@@ -54,7 +55,7 @@ class QuizzesService {
   async getQuiz(quizId) {
     try {
       const [quiz] = await Quiz.find({ _id: quizId });
-      if (!quiz) throw messages.QUIZ_DOESNT_EXISTS;
+      if (!quiz._id) throw messages.QUIZ_DOESNT_EXISTS;
 
       return {
         type: responseTypes.success,
@@ -76,15 +77,12 @@ class QuizzesService {
       if (!validationResult.isEmpty()) throw validationResult.array();
 
       const createdQuiz = await Quiz.create({ ...quiz });
+      if (!createdQuiz._id) throw messages.INVALID_QUIZ_DATA;
 
-      if (createdQuiz._id) {
-        return {
-          type: responseTypes.success,
-          msg: getArrayOf(makeResponse(`Quiz: ${createdQuiz.title} has created.`, "success")),
-        };
-      } else {
-        throw messages.INVALID_QUIZ_DATA;
-      }
+      return {
+        type: responseTypes.success,
+        msg: getArrayOf(makeResponse(`Quiz: ${createdQuiz.title} has created.`, "success")),
+      };
     } catch (e) {
       if (typeof e === "object") e = messages.INVALID_QUIZ_DATA;
 

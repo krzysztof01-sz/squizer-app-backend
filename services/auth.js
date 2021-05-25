@@ -30,7 +30,7 @@ class Validator extends Helper {
 }
 
 class AuthService extends Validator {
-  async register(req) {
+  async registerUser(req) {
     const credentials = req.body;
 
     try {
@@ -62,15 +62,12 @@ class AuthService extends Validator {
     }
   }
 
-  async login(req) {
+  async loginUser(req) {
     const { nickname, password } = req.body;
 
     try {
       const tokenValidation = this.validateCSRF(req);
       if (!tokenValidation) throw makeResponse(messages.INVALID_CSRF, responseTypes.error);
-
-      const credentialsValidation = validate(req);
-      if (!credentialsValidation.isEmpty()) throw credentialsValidation.array();
 
       const user = await User.findOne({ nickname });
       if (!user) throw makeResponse(messages.LOGIN_INVALID_DATA, responseTypes.error);
@@ -95,14 +92,14 @@ class AuthService extends Validator {
     }
   }
 
-  async findUser(id) {
+  async refetchUser(id) {
     const [user] = await User.find({ _id: id });
 
     if (user) {
       user.password = undefined;
     }
 
-    return user;
+    return { data: user };
   }
 }
 

@@ -1,48 +1,40 @@
-const QuizzesService = require('../services/quizzesService');
-const responseTypes = require('../utils/responseTypes');
+const QuizzesService = require("../services/quizzes");
+const responseTypes = require("../utils/responseTypes");
 
 module.exports.quizzesController = {
-  getAll: async (req, res) => {
+  getQuizzes: async (req, res) => {
     if (req.user) {
-      const response = await QuizzesService.getAllQuizzes();
-      const { type } = response;
+      const { type, data, msg } = await QuizzesService.getQuizzes();
+
       if (type === responseTypes.success) {
-        const { quizzes } = response;
-        res.status(200).json({ type, quizzes });
+        res.status(200).json({ type, data });
       } else {
-        const { msg } = response;
         res.status(401).json({ type, msg });
       }
     }
   },
 
-  getQuestions: async (req, res) => {
+  getQuizQuestions: async (req, res) => {
     if (req.user) {
       const quizId = req.params.id;
-      const response = await QuizzesService.getQuestions(quizId);
+      const { type, data, msg } = await QuizzesService.getQuizQuestions(quizId);
 
-      const { type } = response;
       if (type === responseTypes.success) {
-        const { questions } = response;
-        res.status(200).json({ type, questions });
+        res.status(200).json({ type, data });
       } else {
-        const { msg } = response;
         res.status(400).json({ type, msg });
       }
     }
   },
 
-  getComments: async (req, res) => {
+  getQuizComments: async (req, res) => {
     if (req.user) {
       const quizId = req.params.id;
-      const response = await QuizzesService.getComments(quizId);
+      const { type, data, msg } = await QuizzesService.getQuizComments(quizId);
 
-      const { type } = response;
       if (type === responseTypes.success) {
-        const { comments } = response;
-        res.status(200).json({ type, comments });
+        res.status(200).json({ type, data });
       } else {
-        const { msg } = response;
         res.status(400).json({ type, msg });
       }
     }
@@ -51,24 +43,24 @@ module.exports.quizzesController = {
   getQuiz: async (req, res) => {
     if (req.user) {
       const id = req.params.id;
-      const actionResult = await QuizzesService.getQuiz(id);
+      const { type, data, msg } = await QuizzesService.getQuiz(id);
 
-      if (actionResult.type === responseTypes.success) {
-        res.status(201).json(actionResult);
+      if (type === responseTypes.success) {
+        res.status(201).json({ type, data });
       } else {
-        res.status(400).json(actionResult);
+        res.status(400).json({ type, msg });
       }
     }
   },
 
   addQuiz: async (req, res) => {
     if (req.user) {
-      const actionResult = await QuizzesService.addQuiz(req);
+      const { type, msg } = await QuizzesService.addQuiz(req);
 
-      if (actionResult.type === responseTypes.success) {
-        res.status(201).json(actionResult);
+      if (type === responseTypes.success) {
+        res.status(201).json({ type, msg });
       } else {
-        res.status(400).json(actionResult);
+        res.status(400).json({ type, msg });
       }
     }
   },
@@ -78,9 +70,9 @@ module.exports.quizzesController = {
       const { type, msg } = await QuizzesService.addComment(req);
 
       if (type === responseTypes.success) {
-        res.status(201).json({ msg, type });
+        res.status(201).json({ type, msg });
       } else {
-        res.status(401).json({ msg, type });
+        res.status(401).json({ type, msg });
       }
     }
   },
@@ -91,9 +83,9 @@ module.exports.quizzesController = {
       const { type, msg } = await QuizzesService.deleteQuiz(quizId);
 
       if (type === responseTypes.success) {
-        res.status(200).json({ msg, type });
+        res.status(200).json({ type, msg });
       } else {
-        res.status(500).json({ msg, type });
+        res.status(500).json({ type, msg });
       }
     }
   },
