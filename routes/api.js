@@ -8,17 +8,16 @@ const { maxDescriptionLength } = require("../utils/constants");
 const router = express.Router();
 
 router.get("/users", verify, usersController.getUsers);
-router.put("/users", verify, usersController.updateUserStatistics);
-
 router.get("/users/:id", verify, usersController.getUser);
+router.put("/users", verify, usersController.updateUserStatistics);
 router.get("/users/:id/quizzes", verify, usersController.getUserQuizzes);
 router.put("/users/:id/update-avatar/:type", verify, usersController.updateUserAvatarType);
 router.get("/users/:id/ranking-place", verify, usersController.getUserRankingPlace);
 
-router.get("/quizzes", verify, quizzesController.getAll);
+router.get("/quizzes", verify, quizzesController.getQuizzes);
 router.get("/quizzes/:id", verify, quizzesController.getQuiz);
-router.get("/quizzes/:id/questions", verify, quizzesController.getQuestions);
-router.get("/quizzes/:id/comments", verify, quizzesController.getComments);
+router.get("/quizzes/:id/questions", verify, quizzesController.getQuizQuestions);
+router.get("/quizzes/:id/comments", verify, quizzesController.getQuizComments);
 router.delete("/quizzes/:id", verify, quizzesController.deleteQuiz);
 
 router.post(

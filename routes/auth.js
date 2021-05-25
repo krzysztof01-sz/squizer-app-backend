@@ -9,9 +9,9 @@ const verify = require("../middlewares/verifyToken");
 
 const router = express.Router();
 
-router.post("/login", authController.login);
-router.get("/refetch", verify, authController.refetch);
-router.get("/logout", authController.logout);
+router.post("/login", authController.loginUser);
+router.get("/refetch", verify, authController.refetchUser);
+router.get("/logout", authController.logoutUser);
 router.get("/csrf", csrfProtection, authController.getCsrf);
 
 router.post(
@@ -27,7 +27,7 @@ router.post(
       .notEmpty()
       .custom((avatar) => validateAvatar(avatar)),
   ],
-  authController.register,
+  authController.registerUser,
 );
 
 module.exports = router;
