@@ -23,19 +23,15 @@ const LOGOUT = "User is logged out";
 // authentication
 
 const JWT_ACCESS_DENIED = "Invalid token. Login first.";
-const USER_NOT_AUTHENTICATED = "You are not authenticated yet.";
 
 // quizzes service
-const QUIZZES_NOT_FOUND = `There are no quizzes yet. Create the first one!`;
+const QUIZZES_NOT_FOUND = `Quizzes not found.`;
 const QUIZ_DOESNT_EXISTS = "This quiz probably does not exist.";
 const INVALID_QUIZ_DATA = `Invalid quiz data, fill each of the fields.  TIP: title and description should be 3-${maxDescriptionLength} characters long`;
-
-// comments service
 
 const ADDING_COMMENT_ERROR = `The comment cannot be added, try again later.`;
 const ADDING_COMMENT_SUCCESS = `The comment has been added successfully`;
 const ADDING_COMMENT_VALIDATION_ERROR = `The comment must have maximum 500 characters.`;
-const COMMENTS_NOT_FOUND = `Nobody comments this quiz yet.`;
 
 // users service
 
@@ -43,6 +39,9 @@ const USERS_NOT_FOUND = "Users not found";
 const STATISTICS_NOT_FOUND = "Cannot get statistics";
 const DELETING_QUIZ_ERROR = "Deleting error occured.";
 const DELETING_QUIZ_SUCCESS = "The quiz had been deleted successfully.";
+const UPDATING_USER_RESULT_ERROR = `Your result cannot be updated. Try again later.`;
+const UPDATING_AVATAR_ERROR = `Couldn't update an avatar. Try again later.`;
+const UPDATING_AVATAR_SUCCESS = `Avatar has updated successfully!`;
 
 module.exports = {
   REGISTRATION_SUCCESS,
@@ -58,16 +57,17 @@ module.exports = {
   LOGIN_INVALID_PASSWORD,
   LOGOUT,
   JWT_ACCESS_DENIED,
-  USER_NOT_AUTHENTICATED,
   QUIZZES_NOT_FOUND,
   QUIZ_DOESNT_EXISTS,
   INVALID_QUIZ_DATA,
   ADDING_COMMENT_ERROR,
   ADDING_COMMENT_SUCCESS,
   ADDING_COMMENT_VALIDATION_ERROR,
-  COMMENTS_NOT_FOUND,
   USERS_NOT_FOUND,
   STATISTICS_NOT_FOUND,
   DELETING_QUIZ_ERROR,
   DELETING_QUIZ_SUCCESS,
+  UPDATING_USER_RESULT_ERROR,
+  UPDATING_AVATAR_ERROR,
+  UPDATING_AVATAR_SUCCESS,
 };
