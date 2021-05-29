@@ -89,4 +89,30 @@ module.exports.quizzesController = {
       }
     }
   },
+
+  deleteQuizComment: async (req, res) => {
+    if (req.user) {
+      const quizId = req.params.id;
+      const commentId = req.params.commentId;
+      const { type, msg } = await QuizzesService.deleteQuizComment(quizId, commentId);
+
+      if (type === responseTypes.success) {
+        res.status(200).json({ type, msg });
+      } else {
+        res.status(500).json({ type, msg });
+      }
+    }
+  },
+
+  updateQuizComment: async (req, res) => {
+    if (req.user) {
+      const { type, msg } = await QuizzesService.updateQuizComment(req);
+
+      if (type === responseTypes.success) {
+        res.status(200).json({ type, msg });
+      } else {
+        res.status(500).json({ type, msg });
+      }
+    }
+  },
 };
