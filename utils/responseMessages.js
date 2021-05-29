@@ -31,7 +31,7 @@ const INVALID_QUIZ_DATA = `Invalid quiz data, fill each of the fields.  TIP: tit
 
 const ADDING_COMMENT_ERROR = `The comment cannot be added, try again later.`;
 const ADDING_COMMENT_SUCCESS = `The comment has been added successfully`;
-const ADDING_COMMENT_VALIDATION_ERROR = `The comment must have maximum 500 characters.`;
+const ADDING_COMMENT_VALIDATION_ERROR = `The comment must have from 1 to 500 characters.`;
 
 // users service
 
@@ -42,6 +42,10 @@ const DELETING_QUIZ_SUCCESS = "The quiz had been deleted successfully.";
 const UPDATING_USER_RESULT_ERROR = `Your result cannot be updated. Try again later.`;
 const UPDATING_AVATAR_ERROR = `Couldn't update an avatar. Try again later.`;
 const UPDATING_AVATAR_SUCCESS = `Avatar has updated successfully!`;
+const DELETING_COMMENT_SUCCESS = "Comment deleted successfully!";
+const DELETING_COMMENT_ERROR = "Error while deleting the comment";
+const UPDATING_COMMENT_SUCCESS = "Comment updated successfully!";
+const UPDATING_COMMENT_ERROR = "Error while updating the comment";
 
 module.exports = {
   REGISTRATION_SUCCESS,
@@ -70,4 +74,8 @@ module.exports = {
   UPDATING_USER_RESULT_ERROR,
   UPDATING_AVATAR_ERROR,
   UPDATING_AVATAR_SUCCESS,
+  DELETING_COMMENT_SUCCESS,
+  DELETING_COMMENT_ERROR,
+  UPDATING_COMMENT_SUCCESS,
+  UPDATING_COMMENT_ERROR,
 };
