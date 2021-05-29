@@ -8,8 +8,8 @@ const { shuffleArray } = require("../utils/functions");
 class QuizzesService {
   async getQuizzes() {
     try {
-      let quizzes = await Quiz.find({}).sort({ creationDate: -1 });
-      quizzes = [];
+      const quizzes = await Quiz.find({}).sort({ creationDate: -1 });
+
       if (quizzes.length > 0) {
         return {
           type: responseTypes.success,
@@ -101,7 +101,7 @@ class QuizzesService {
       const commentValidation = validate(req);
 
       if (!commentValidation.isEmpty()) {
-        throw makeResponse(messages.ADDING_COMMENT_VALIDATION_ERROR, responseTypes.error);
+        return makeResponse(messages.ADDING_COMMENT_VALIDATION_ERROR, responseTypes.error);
       }
 
       const comment = new QuizComment({ ...req.body, authorId });
@@ -117,9 +117,45 @@ class QuizzesService {
   async deleteQuiz(quizId) {
     try {
       await Quiz.deleteOne({ _id: quizId });
+
       return makeResponse(messages.DELETING_QUIZ_SUCCESS, responseTypes.success);
     } catch (e) {
       if (typeof e === "object") e = makeResponse(messages.DELETING_QUIZ_ERROR, responseTypes.error);
+      return e;
+    }
+  }
+
+  async deleteQuizComment(quizId, commentId) {
+    try {
+      await Quiz.updateOne({ _id: quizId }, { $pull: { comments: { _id: commentId } } });
+
+      return makeResponse(messages.DELETING_COMMENT_SUCCESS, responseTypes.success);
+    } catch (e) {
+      if (typeof e === "object") e = makeResponse(messages.DELETING_COMMENT_ERROR, responseTypes.error);
+      return e;
+    }
+  }
+
+  async updateQuizComment(req) {
+    const { id: quizId, commentId } = req.params;
+    const comment = req.body.content;
+
+    try {
+      const commentValidation = validate(req);
+
+      if (!commentValidation.isEmpty()) {
+        return makeResponse(messages.ADDING_COMMENT_VALIDATION_ERROR, responseTypes.error);
+      }
+
+      await Quiz.updateOne(
+        { _id: quizId },
+        { $set: { "comments.$[element].content": comment } },
+        { arrayFilters: [{ "element._id": commentId }] },
+      );
+
+      return makeResponse(messages.UPDATING_COMMENT_SUCCESS, responseTypes.success);
+    } catch (e) {
+      if (typeof e === "object") e = makeResponse(messages.UPDATING_COMMENT_ERROR, responseTypes.error);
       return e;
     }
   }
