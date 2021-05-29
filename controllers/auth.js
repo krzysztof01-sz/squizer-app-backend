@@ -48,6 +48,6 @@ module.exports.authController = {
   },
 
   getCsrf: (req, res) => {
-    res.send({ csrfToken: req.csrfToken() });
+    res.json({ type: responseTypes.success, data: req.csrfToken() });
   },
 };
