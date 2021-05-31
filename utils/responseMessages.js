@@ -46,6 +46,8 @@ const DELETING_COMMENT_SUCCESS = "Comment deleted successfully!";
 const DELETING_COMMENT_ERROR = "Error while deleting the comment";
 const UPDATING_COMMENT_SUCCESS = "Comment updated successfully!";
 const UPDATING_COMMENT_ERROR = "Error while updating the comment";
+const RATING_ADDING_SUCCESSFULLY = "The rating has been sent successfully.";
+const RATING_ADDING_ERROR = "Sending error, try again!";
 
 module.exports = {
   REGISTRATION_SUCCESS,
@@ -78,4 +80,6 @@ module.exports = {
   DELETING_COMMENT_ERROR,
   UPDATING_COMMENT_SUCCESS,
   UPDATING_COMMENT_ERROR,
+  RATING_ADDING_SUCCESSFULLY,
+  RATING_ADDING_ERROR,
 };
