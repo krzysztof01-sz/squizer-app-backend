@@ -115,4 +115,18 @@ module.exports.quizzesController = {
       }
     }
   },
+
+  sendQuizRating: async (req, res) => {
+    if (req.user) {
+      const quizId = req.params.id;
+      const data = req.body;
+      const { type, msg } = await QuizzesService.sendQuizRating(quizId, data);
+
+      if (type === responseTypes.success) {
+        res.status(200).json({ type, msg });
+      } else {
+        res.status(500).json({ type, msg });
+      }
+    }
+  },
 };
