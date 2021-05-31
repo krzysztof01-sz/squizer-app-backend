@@ -20,6 +20,7 @@ router.get("/quizzes/:id/questions", verify, quizzesController.getQuizQuestions)
 router.get("/quizzes/:id/comments", verify, quizzesController.getQuizComments);
 router.delete("/quizzes/:id", verify, quizzesController.deleteQuiz);
 router.delete("/quizzes/:id/comments/:commentId", verify, quizzesController.deleteQuizComment);
+router.post("/quizzes/:id/ratings", verify, quizzesController.sendQuizRating);
 router.put(
   "/quizzes/:id/comments/:commentId",
   [verify, check("content").trim().isLength({ min: 1, max: 500 })],
