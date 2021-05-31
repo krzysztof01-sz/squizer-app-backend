@@ -20,9 +20,17 @@ module.exports.authController = {
   },
 
   registerUser: async (req, res) => {
-    const { type, msg, userId } = await AuthService.registerUser(req);
+    const { type, msg, userId, token } = await AuthService.registerUser(req);
 
     if (type === responseTypes.success) {
+      // autologging after successful registration
+      res.cookie("token", token, {
+        httpOnly: true,
+        sameSite: "strict",
+        secure: process.env.ENV === "production",
+        expires: new Date(Date.now() + 24 * 3600 * 1000),
+      });
+
       res.status(201).json({ type, msg, userId });
     } else {
       res.status(400).json({ type, msg });

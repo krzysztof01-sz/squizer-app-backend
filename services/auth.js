@@ -46,13 +46,17 @@ class AuthService extends Validator {
       const newUserPassword = this.hashPassword(credentials.password);
       const user = new User({ ...credentials, password: newUserPassword });
 
-      const response = await user.save();
-      if (!response._id) throw makeResponse(messages.REGISTRATION_ERROR, responseTypes.error);
+      const createdUser = await user.save();
+      if (!createdUser._id) throw makeResponse(messages.REGISTRATION_ERROR, responseTypes.error);
+
+      const jwtToken = jwt.sign({ _id: createdUser._id }, process.env.JWT_SECRET);
+      createdUser.password = undefined;
 
       return {
         type: responseTypes.success,
         msg: getArrayOf(makeResponse(messages.REGISTRATION_SUCCESS, responseTypes.success)),
         userId: user._id,
+        token: jwtToken,
       };
     } catch (e) {
       return {
