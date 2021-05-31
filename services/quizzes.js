@@ -159,6 +159,27 @@ class QuizzesService {
       return e;
     }
   }
+
+  async sendQuizRating(quizId, data) {
+    try {
+      const { type, data: quiz } = await this.getQuiz(quizId);
+
+      if (type === responseTypes.success) {
+        const [userRating] = quiz.ratings.filter(({ userId }) => userId.toString() === data.userId.toString());
+        if (userRating) {
+          return makeResponse(`You have already rated this quiz (Your rating: ${userRating.rating}/5)`, responseTypes.error);
+        }
+      } else {
+        return makeResponse(messages.RATING_ADDING_ERROR, responseTypes.error);
+      }
+
+      await Quiz.updateOne({ _id: quizId }, { $push: { ratings: data } });
+      return makeResponse(messages.RATING_ADDING_SUCCESSFULLY, responseTypes.success);
+    } catch (e) {
+      if (typeof e === "object") e = makeResponse(messages.RATING_ADDING_ERROR, responseTypes.error);
+      return e;
+    }
+  }
 }
 
 const Service = new QuizzesService();
