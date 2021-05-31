@@ -1,7 +1,8 @@
-const mongoose = require('mongoose');
-const { quizCategories } = require('../utils/constants');
-const questionSchema = require('./Question');
-const { commentSchema } = require('./QuizComment');
+const mongoose = require("mongoose");
+const { quizCategories } = require("../utils/constants");
+const questionSchema = require("./Question");
+const { commentSchema } = require("./QuizComment");
+const ratingSchema = require("./Rating");
 
 const Schema = mongoose.Schema;
 
@@ -26,10 +27,11 @@ const quizSchema = new Schema(
     },
     questions: [questionSchema],
     comments: [commentSchema],
+    ratings: [ratingSchema],
   },
-  { collection: 'quizzes', versionKey: false, timestamps: { createdAt: 'creationDate' } },
+  { collection: "quizzes", versionKey: false, timestamps: { createdAt: "creationDate" } },
 );
 
-const Quiz = mongoose.model('Quiz', quizSchema);
+const Quiz = mongoose.model("Quiz", quizSchema);
 
 module.exports = Quiz;
