@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
     credentials: true,
-    origin: "https://squizer.ct8.pl",
+    origin: process.env.ENV === "development" ? "http://localhost:8000" : "https://squizer.ct8.pl",
   }),
 );
 app.use(hpp());
@@ -34,7 +34,7 @@ app.use("/auth", authRoutes);
 
 app.listen(PORT, () =>
   mongoose
-    .connect(process.env.MONGO_URL, {
+    .connect(process.env.MONGO_URL_PROD, {
       useCreateIndex: true,
       useNewUrlParser: true,
       useFindAndModify: false,
