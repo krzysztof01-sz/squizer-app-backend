@@ -26,9 +26,10 @@ app.use(
 app.use(hpp());
 
 app.use(function (req, res, next) {
-  res.set("Access-Allow-Control-Origin", "https://squizer.ct8.pl");
-  res.set("Access-Allow-Control-Headers", "Content-Type");
-  res.set("Access-Allow-Control-Credentials", true);
+  res.setHeader("Access-Allow-Control-Origin", "https://squizer.ct8.pl");
+  res.setHeader("Access-Allow-Control-Methods", "*");
+  res.setHeader("Access-Allow-Control-Credentials", true);
+  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
