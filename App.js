@@ -25,7 +25,7 @@ app.use(
 );
 app.use(hpp());
 
-app.use(function (res, req, next) {
+app.use(function (req, res, next) {
   res.set("Access-Allow-Control-Origin", "https://squizer.ct8.pl");
   res.set("Access-Allow-Control-Headers", "Content-Type");
   res.set("Access-Allow-Control-Credentials", true);
