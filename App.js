@@ -20,10 +20,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
     credentials: true,
-    origin: "https://squizer.ct8.pl",
+    origin: process.env.ENV === "development" ? "http://localhost:8000" : "https://squizer.ct8.pl",
   }),
 );
 app.use(hpp());
+
+app.use(function (res, req, next) {
+  res.set("Access-Allow-Control-Origin", "https://squizer.ct8.pl");
+  res.set("Access-Allow-Control-Headers", "Content-Type");
+  res.set("Access-Allow-Control-Credentials", true);
+  next();
+});
 
 const PORT = process.env.PORT || 8080;
 
@@ -34,7 +41,7 @@ app.use("/auth", authRoutes);
 
 app.listen(PORT, () =>
   mongoose
-    .connect(process.env.MONGO_URL, {
+    .connect(process.env.MONGO_URL_PROD, {
       useCreateIndex: true,
       useNewUrlParser: true,
       useFindAndModify: false,
