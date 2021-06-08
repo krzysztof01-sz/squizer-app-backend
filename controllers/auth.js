@@ -1,15 +1,19 @@
 const AuthService = require("../services/auth");
 const responseTypes = require("../utils/responseTypes");
 
+const cookieSettings = {
+  httpOnly: true,
+  sameSite: "none",
+  secure: process.env.ENV === "production",
+};
+
 module.exports.authController = {
   loginUser: async (req, res) => {
     const { type, msg, token, user } = await AuthService.loginUser(req);
 
     if (type === responseTypes.success) {
       res.cookie("token", token, {
-        httpOnly: true,
-        sameSite: "none",
-        secure: process.env.ENV === "production",
+        ...cookieSettings,
         expires: new Date(Date.now() + 24 * 3600 * 1000),
       });
 
@@ -25,9 +29,7 @@ module.exports.authController = {
     if (type === responseTypes.success) {
       // autologging after successful registration
       res.cookie("token", token, {
-        httpOnly: true,
-        sameSite: "none",
-        secure: process.env.ENV === "production",
+        ...cookieSettings,
         expires: new Date(Date.now() + 24 * 3600 * 1000),
       });
 
@@ -39,10 +41,8 @@ module.exports.authController = {
 
   logoutUser: async (_, res) => {
     res.cookie("token", "logout", {
+      ...cookieSettings,
       expires: new Date(Date.now() + 10 * 1000),
-      httpOnly: true,
-      sameSite: "none",
-      secure: process.env.ENV === "production",
     });
     res.status(200).json({ success: true });
   },
