@@ -89,7 +89,6 @@ class AuthService extends Validator {
         user,
       };
     } catch (e) {
-      if (typeof e === "object") e = makeResponse(messages.LOGIN_INVALID_DATA, responseTypes.error);
       return {
         type: responseTypes.error,
         msg: getArrayOf(e),
