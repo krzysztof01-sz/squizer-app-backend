@@ -15,7 +15,7 @@ module.exports.authController = {
 
       res.status(200).json({ type, msg, user });
     } else {
-      res.status(401).json({ type, msg: "szaleństwo" });
+      res.status(401).json({ type, msg });
     }
   },
 
