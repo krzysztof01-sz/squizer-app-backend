@@ -8,7 +8,7 @@ module.exports.authController = {
     if (type === responseTypes.success) {
       res.cookie("token", token, {
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: "none",
         secure: process.env.ENV === "production",
         expires: new Date(Date.now() + 24 * 3600 * 1000),
       });
