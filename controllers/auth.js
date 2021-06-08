@@ -42,6 +42,7 @@ module.exports.authController = {
       expires: new Date(Date.now() + 10 * 1000),
       httpOnly: true,
       sameSite: "none",
+      secure: process.env.ENV === "production",
     });
     res.status(200).json({ success: true });
   },
