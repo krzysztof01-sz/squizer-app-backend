@@ -41,8 +41,12 @@ module.exports.authController = {
     res.cookie("token", "logout", {
       expires: new Date(Date.now() + 10 * 1000),
       httpOnly: true,
+<<<<<<< HEAD
       sameSite: "none",
       secure: process.env.ENV === "production",
+=======
+      sameSite: "strict",
+>>>>>>> 90a5d043ca41859db2469e6ba2d2c0cbc48e0c74
     });
     res.status(200).json({ success: true });
   },
