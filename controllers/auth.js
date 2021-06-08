@@ -15,7 +15,7 @@ module.exports.authController = {
 
       res.status(200).json({ type, msg, user });
     } else {
-      res.status(401).json({ type, msg });
+      res.status(401).json({ type, msg: "szaleństwo" });
     }
   },
 
@@ -26,7 +26,7 @@ module.exports.authController = {
       // autologging after successful registration
       res.cookie("token", token, {
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: "none",
         secure: process.env.ENV === "production",
         expires: new Date(Date.now() + 24 * 3600 * 1000),
       });
